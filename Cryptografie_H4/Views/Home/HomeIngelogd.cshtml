@@ -1,0 +1,7 @@
+﻿@*  Home->HomeIngelogd  *@
+
+@model Cryptografie_H4.Models.ViewModels.HomeIngelogdViewModel
+
+<h1>Nu ben je ingelogd, je email is: @Model.Email</h1>
+
+<a asp-controller="Gebruiker" asp-action="Logout" class="btn btn-danger">Logout</a>

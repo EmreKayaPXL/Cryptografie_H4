@@ -1,6 +1,7 @@
 ﻿using Cryptografie_H4.Data;
 using Cryptografie_H4.Helpers;
 using Cryptografie_H4.Models;
+using Cryptografie_H4.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cryptografie_H4.Controllers
@@ -8,11 +9,11 @@ namespace Cryptografie_H4.Controllers
     public class GebruikerController : Controller
     {
 
-            private readonly GebruikerDbContext _loginGevenens;
+            private readonly GebruikerDbContext _context;
 
-            public GebruikerController(GebruikerDbContext loginGevenens)
+            public GebruikerController(GebruikerDbContext context)
             {
-                _loginGevenens = loginGevenens;
+            _context = context;
             }
 
             [HttpGet]
@@ -26,13 +27,15 @@ namespace Cryptografie_H4.Controllers
         public IActionResult Login(Gebruiker model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
-            bool bestaat = _loginGevenens.Gebruiker.Any(g =>
-                g.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase) &&
-                g.Wachtwoord == model.Wachtwoord);
+            string ingegevenHash = SHAHelper.MaakSha256Hash(model.Wachtwoord);
+
+            string emailNorm = (model.Email ?? "").Trim().ToUpper();
+
+            bool bestaat = _context.Gebruiker.Any(g =>
+                (g.Email ?? "").Trim().ToUpper() == emailNorm &&
+                g.Wachtwoord == ingegevenHash);
 
             if (!bestaat)
             {
@@ -40,18 +43,13 @@ namespace Cryptografie_H4.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Home");
-
-
-
-/*
-            SHAHelper.MaakSha256Hash(model.Wachtwoord);
-
-
-            SHAHelper SHA = new SHAHelper();
-            SHA.MaakSha256Hash(model.Wachtwoord);*/
+            return RedirectToAction("HomeIngelogd", "Home", new { email = model.Email });
         }
 
-        
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Login", "Gebruiker");
+        }
     }
 }

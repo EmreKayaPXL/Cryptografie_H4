@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Cryptografie_H4.Models;
+using Cryptografie_H4.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cryptografie_H4.Controllers
@@ -16,6 +17,11 @@ namespace Cryptografie_H4.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public IActionResult HomeIngelogd(string email)
+        {
+            var vm = new HomeIngelogdViewModel { Email = email ?? "" };
+            return View(vm);
         }
 
         public IActionResult Privacy()

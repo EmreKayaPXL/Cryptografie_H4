@@ -1,4 +1,5 @@
-﻿using Cryptografie_H4.Models;
+﻿using Cryptografie_H4.Helpers;
+using Cryptografie_H4.Models;
 
 namespace Cryptografie_H4.Data
 {
@@ -13,22 +14,22 @@ namespace Cryptografie_H4.Data
                 new()
                 {
                     Email = "Shirwan@test.be",
-                    Wachtwoord = "User123!",
+                    Wachtwoord = SHAHelper.MaakSha256Hash("User123!")
                 },                
                 new()             
                 {                 
                     Email = "emre@test.be",
-                    Wachtwoord = "User123!",
+                    Wachtwoord = SHAHelper.MaakSha256Hash("User123!")
                 },                
                 new()             
                 {                 
                     Email = "sefa@test.be",
-                    Wachtwoord = "User123!",
+                    Wachtwoord = SHAHelper.MaakSha256Hash("User123!")
                 },                
                 new()             
                 {                 
                     Email = "sergey@test.be",
-                    Wachtwoord = "User123!",
+                    Wachtwoord = SHAHelper.MaakSha256Hash("User123!")
                 },
 
             };
