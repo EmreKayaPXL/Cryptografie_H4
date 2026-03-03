@@ -1,4 +1,5 @@
 ﻿using Cryptografie_H4.Data;
+using Cryptografie_H4.Helpers;
 using Cryptografie_H4.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +8,9 @@ namespace Cryptografie_H4.Controllers
     public class GebruikerController : Controller
     {
 
-            private readonly LoginGevenens _loginGevenens;
+            private readonly GebruikerDbContext _loginGevenens;
 
-            public GebruikerController(LoginGevenens loginGevenens)
+            public GebruikerController(GebruikerDbContext loginGevenens)
             {
                 _loginGevenens = loginGevenens;
             }
@@ -17,19 +18,19 @@ namespace Cryptografie_H4.Controllers
             [HttpGet]
             public IActionResult Login()
             {
-                return View(new Login());
+                return View(new Gebruiker());
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(Login model)
+        public IActionResult Login(Gebruiker model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            bool bestaat = _loginGevenens.Gebruikers.Any(g =>
+            bool bestaat = _loginGevenens.Gebruiker.Any(g =>
                 g.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase) &&
                 g.Wachtwoord == model.Wachtwoord);
 
@@ -40,6 +41,17 @@ namespace Cryptografie_H4.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+
+
+
+/*
+            SHAHelper.MaakSha256Hash(model.Wachtwoord);
+
+
+            SHAHelper SHA = new SHAHelper();
+            SHA.MaakSha256Hash(model.Wachtwoord);*/
         }
+
+        
     }
 }

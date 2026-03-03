@@ -1,4 +1,5 @@
 using Cryptografie_H4.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cryptografie_H4
 {
@@ -11,8 +12,8 @@ namespace Cryptografie_H4
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-
-            builder.Services.AddSingleton<LoginGevenens>();
+            var connectionString = builder.Configuration.GetConnectionString("GebruikerConnection");
+            builder.Services.AddDbContext<GebruikerDbContext>(options => options.UseSqlServer(connectionString));
 
             var app = builder.Build();
 
@@ -35,6 +36,7 @@ namespace Cryptografie_H4
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            SeedData.EnsureData(app);
             app.Run();
         }
     }

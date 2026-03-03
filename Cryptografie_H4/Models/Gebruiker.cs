@@ -2,16 +2,15 @@
 
 namespace Cryptografie_H4.Models
 {
-    public class Login
+    public class Gebruiker
     {
-        
-        [Required(ErrorMessage = "E-mail is verplicht.")]
+        public int Id { get; set; }
+
+        [Required]
         [EmailAddress(ErrorMessage = "Geef een geldig e-mailadres op.")]
         public string Email { get; set; }
 
-
-
-        [Required(ErrorMessage = "Wachtwoord is verplicht.")]
+        [Required]
         [MinLength(8, ErrorMessage = "Je wachtwoord moet minstens 8 tekens hebben.")]
         public string Wachtwoord { get; set; }
     }
