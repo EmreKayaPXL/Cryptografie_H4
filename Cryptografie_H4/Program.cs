@@ -1,3 +1,5 @@
+using Cryptografie_H4.Data;
+
 namespace Cryptografie_H4
 {
     public class Program
@@ -8,6 +10,9 @@ namespace Cryptografie_H4
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddSingleton<LoginGevenens>();
 
             var app = builder.Build();
 
